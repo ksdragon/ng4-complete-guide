@@ -20,4 +20,12 @@ export class ShoppingService {
         this.ingredentsChanded.emit(this.ingredients);
       }
 
+      addIngredients(ingredientsNew: Ingredient[]){
+        // ingridients.forEach(el => {
+        //   this.ingredients.push(el);
+        // });
+        this.ingredients.push(...ingredientsNew)
+        this.ingredentsChanded.emit(this.ingredients);
+      }
+
 }
