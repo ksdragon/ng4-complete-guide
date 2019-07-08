@@ -10,15 +10,15 @@ import { Ingredient } from 'src/app/shared/ingredient.model';
 })
 export class RecipeDetailComponent implements OnInit {
   @Input() recipeDetail : Recipe;
-  constructor(private serviceRecipe: RecipeService) {     
+  constructor(private serviceRecipe: RecipeService) {
    }
 
    addIngredientsToSL(){
       this.serviceRecipe.addIngredientsToSL(this.recipeDetail.ingredients);
-      console.log(this.recipeDetail.ingredients);
+      // console.log(this.recipeDetail.ingredients);
    }
 
-  
+
   ngOnInit() {
   }
 

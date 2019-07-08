@@ -17,15 +17,18 @@ export class ShoppingService {
 
       addIngredient(ingredient: Ingredient){
         this.ingredients.push(ingredient);
-        this.ingredentsChanded.emit(this.ingredients);
+        this.ingredentsChanded.emit(this.ingredients.slice());
+        console.log(this.ingredients);
+        console.log(this.ingredentsChanded);
       }
 
       addIngredients(ingredientsNew: Ingredient[]){
-        // ingridients.forEach(el => {
+        // ingredientsNew.forEach(el => {
         //   this.ingredients.push(el);
+        //   console.log(this.ingredients);
         // });
-        this.ingredients.push(...ingredientsNew)
-        this.ingredentsChanded.emit(this.ingredients);
+        this.ingredients.push(...ingredientsNew);
+        this.ingredentsChanded.emit(this.ingredients.slice());
       }
 
 }
