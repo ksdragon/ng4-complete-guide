@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-header',
@@ -7,9 +7,4 @@ import { Component, Output, EventEmitter } from '@angular/core';
 })
 export class HeaderComponent {
 
-   @Output() clickedLinkEvent = new EventEmitter<string>();
-
-    onClickNavigateLink(feature: string) {
-        this.clickedLinkEvent.emit(feature);
-    }
 }

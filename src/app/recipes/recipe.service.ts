@@ -1,17 +1,20 @@
 import { Recipe } from './recipe.model';
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingService } from '../shopping-list/shopping.service';
+import { Subject } from 'rxjs';
+
 @Injectable()
 export class RecipeService {
 
-    recipeSelected = new EventEmitter<Recipe>();
+    // recipeSelected = new Subject<Recipe>();
 
     constructor(private serviceSL: ShoppingService){
 
     }
     private recipes: Recipe[] = [
         new Recipe(
+            0,
             'testRecipe1',
             'This is a test1',
             'https://upload.wikimedia.org/wikipedia/commons/3/39/Recipe.jpg',
@@ -20,6 +23,7 @@ export class RecipeService {
             ]),
 
         new Recipe(
+            1,
             'testRecipe2',
             'This is a test2',
             'https://upload.wikimedia.org/wikipedia/commons/3/39/Recipe.jpg',
@@ -37,5 +41,9 @@ export class RecipeService {
     getRecipes() {
         return this.recipes.slice();
     }
+
+    getRecipe(index: number) {
+      return this.recipes.slice()[index];
+  }
 
 }
