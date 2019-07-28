@@ -9,11 +9,18 @@ export class ShoppingService {
       ];
 
       ingredentsChanded = new Subject<Ingredient[]>();
+      startedEditingItem = new Subject<number>();
+
+      getIngredient(index: number){
+        return this.ingredients[index];
+      }
 
       getIngredients(){
           // copy orginal array
           return this.ingredients.slice();
       }
+
+
 
       addIngredient(ingredient: Ingredient){
         this.ingredients.push(ingredient);
@@ -28,6 +35,16 @@ export class ShoppingService {
         //   console.log(this.ingredients);
         // });
         this.ingredients.push(...ingredientsNew);
+        this.ingredentsChanded.next(this.ingredients.slice());
+      }
+
+      updateIngredient(index: number, newIngredient: Ingredient){
+        this.ingredients[index] = newIngredient;
+        this.ingredentsChanded.next(this.ingredients.slice());
+      }
+
+      deleteIngredient(index: number){
+        this.ingredients.splice(index, 1);
         this.ingredentsChanded.next(this.ingredients.slice());
       }
 
