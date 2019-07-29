@@ -9,8 +9,8 @@ export class Recipe {
 
 
 
-  constructor(id: number, name: string, desc: string, imagePath: string, ingredient: Ingredient[]) {
-    this.id = id;
+  constructor(name: string, desc: string, imagePath: string, ingredient: Ingredient[]) {
+    // this.id = id;
     this.name = name;
     this.description = desc;
     this.imagePath = imagePath;

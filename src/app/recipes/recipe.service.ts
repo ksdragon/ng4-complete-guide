@@ -8,13 +8,14 @@ import { Subject } from 'rxjs';
 export class RecipeService {
 
     // recipeSelected = new Subject<Recipe>();
+    recipesChanged = new Subject<Recipe[]>();
 
     constructor(private serviceSL: ShoppingService){
 
     }
     private recipes: Recipe[] = [
         new Recipe(
-            0,
+            // 0,
             'testRecipe1',
             'This is a test1',
             'https://upload.wikimedia.org/wikipedia/commons/3/39/Recipe.jpg',
@@ -23,7 +24,7 @@ export class RecipeService {
             ]),
 
         new Recipe(
-            1,
+            // 1,
             'testRecipe2',
             'This is a test2',
             'https://upload.wikimedia.org/wikipedia/commons/3/39/Recipe.jpg',
@@ -44,6 +45,21 @@ export class RecipeService {
 
     getRecipe(index: number) {
       return this.recipes.slice()[index];
+  }
+
+  addRecipe(recipe: Recipe){
+    this.recipes.push(recipe);
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  updateRecipe(index: number, newRecipe: Recipe){
+    this.recipes[index] = newRecipe;
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  deleteRecipe(index: number){
+    this.recipes.splice(index, 1);
+    this.recipesChanged.next(this.recipes.slice());
   }
 
 }
