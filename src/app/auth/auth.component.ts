@@ -8,6 +8,7 @@ import { NgForm } from '@angular/forms';
 })
 export class AuthComponent {
   isLoginMode = true;
+  isLoading = false;
 
   constructor(private authService: AuthService) { }
   // przełączanie między ligin sing up.
@@ -23,13 +24,16 @@ export class AuthComponent {
     const emali = form.value.email;
     const password = form.value.password;
 
+    this.isLoading = true;
     if (this.isLoginMode) {
       // ..
     } else {
       this.authService.singup(emali, password).subscribe(respData => {
         console.log(respData);
+        this.isLoading = false;
       }, error => {
         console.log(error);
+        this.isLoading = false;
       });
     }
     form.reset();
