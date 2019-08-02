@@ -28,7 +28,8 @@ export class AuthService {
   // tz mamy dostęp do właściości tego obiektu np Daty która została wygenerowna.
   user = new BehaviorSubject<User>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+              private router: Router) {}
 
   singup(email: string, password: string) {
     return this.http.post<AuthRensponseData>
@@ -94,6 +95,12 @@ export class AuthService {
         this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
       }
     ));
+  }
+
+  logout() {
+    this.user.next(null);
+    this.router.navigate(['/auth']);
+
   }
 
   private handleAuthentication(email: string, userId: string, token: string, expiresIn: number) {

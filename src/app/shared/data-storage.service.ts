@@ -23,6 +23,28 @@ export class DataStorageService {
   }
 
   fetchRecipes() {
+    // jeden ze sposobów autoryzacji zapytań do serwera i dodawania tokena do zapytania.
+    // tutaj całą robotę robi interceptor.
+    return this.http.get<Recipe []>('https://ng-course-recipe-book-9b934.firebaseio.com/recipes.json')
+    .pipe(
+    // funkcja map z biblioteki rxjs jest operatorem który pozwala na zmianę odpowiedzi z serwera
+    map(
+      recipes => {
+        // tu funkcja map pozwala na zmiany w tablicy.
+        return recipes.map(recipe => {
+          // '...' - spread operatorjest (to kopia wszystkich właściwości recipe) i zmiana jednej włąściowści.
+          return { ...recipe, ingredients: recipe.ingredients ? recipe.ingredients : []};
+        });
+      }
+    ), tap(
+      (response) => {this.recipeService.setRecipes(response); }
+    ));
+  }
+
+
+
+  fetchRecipes1() {
+    // jeden ze sposobów autoryzacji zapytań do serwera i dodawania tokena do zapytania.
     // metoda pipe przyjmuje operatory takie jak map tap take exhaustMap
     // take - bierze tylko jedną wartość i automatycznie jest unsubscribe
     // exhaustMap - pozwala na wykonanie pierwszego observable czyli user i
