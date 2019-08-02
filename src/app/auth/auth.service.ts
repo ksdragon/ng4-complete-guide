@@ -28,6 +28,9 @@ export class AuthService {
   // tz mamy dostęp do właściości tego obiektu np Daty która została wygenerowna.
   user = new BehaviorSubject<User>(null);
 
+  // zmienna do autoLogout czy został już wylogowany.
+  private tokenExperationTimer: any;
+
   constructor(private http: HttpClient,
               private router: Router) {}
 
@@ -56,6 +59,8 @@ export class AuthService {
       this.user.next(user);
       // przechowujemy użytkownika w localstorage przeglądarki
       localStorage.setItem('userData', JSON.stringify(user));
+       // rejestrowanie auto Logout przy zalogowaniu expiresIn dostajem z servera.
+      this.autoLogout(+resData.expiresIn * 1000);
     }));
   }
 
@@ -102,7 +107,13 @@ export class AuthService {
   logout() {
     this.user.next(null);
     this.router.navigate(['/auth']);
-
+    // czyszczeni po wylogowaniu.
+    localStorage.removeItem('userData');
+    // sprawdzenie czy timer działa jak tak to go wyłącza.
+    if (this.tokenExperationTimer) {
+      clearTimeout(this.tokenExperationTimer);
+    }
+    this.tokenExperationTimer = null;
   }
 
   autoLogin() {
@@ -127,7 +138,18 @@ export class AuthService {
     if (loadedUser.token) {
       // emitowanie zmienej user
         this.user.next(loadedUser);
+       // rejestrowanie auto Logout przy zalogowaniu expiresIn dostajem z servera.
+        const experationDuration =
+          new Date( userData._tokenExpirationDate).getTime() - new Date().getTime();
+        this.autoLogout(experationDuration);
       }
+  }
+
+  autoLogout(experationDuration: number) {
+    // przypisujemy timera do zmiennej.
+    this.tokenExperationTimer = setTimeout( () => {
+      this.logout();
+    } , experationDuration);
   }
 
   private handleAuthentication(email: string, userId: string, token: string, expiresIn: number) {
@@ -141,6 +163,8 @@ export class AuthService {
     this.user.next(user);
     // dodanie usera do localStorage - autoLogin()
     localStorage.setItem('userData', JSON.stringify(user));
+    // rejestrowanie auto Logout przy zalogowaniu expiresIn dostajem z servera.
+    this.autoLogout(expiresIn * 1000);
   }
 
   private handleError(errorRes: HttpErrorResponse) {
