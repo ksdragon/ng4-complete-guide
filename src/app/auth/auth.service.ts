@@ -4,7 +4,7 @@ import { Injectable, ErrorHandler } from '@angular/core';
 // tap - pozwala na wykonanie jakiegoś kodu bez zmiany odpowiedzi z servera.
 import { catchError, tap } from 'rxjs/operators';
 // operator króry przechwytuje błędy jest typu obserable jak każdy z tej biblioteki.
-import { throwError, Subject } from 'rxjs';
+import { throwError, BehaviorSubject } from 'rxjs';
 import { User } from './user.model';
 
 // interfejs zgodnie z tym co zwraca baza firebase potrzebny do sing up.
@@ -22,7 +22,11 @@ export interface AuthRensponseData {
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
-  user = new Subject<User>();
+
+  // zieniamy z Subject do BehaviorSubject - powoduje to ro że mamy dostęp do tej zmiennej
+  // nie w chwili jak jakaś metoda wywoła next ale cały czas nie zależnie od czasu emisj.
+  // tz mamy dostęp do właściości tego obiektu np Daty która została wygenerowna.
+  user = new BehaviorSubject<User>(null);
 
   constructor(private http: HttpClient) {}
 
