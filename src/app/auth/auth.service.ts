@@ -54,6 +54,8 @@ export class AuthService {
       const user = new User(resData.email, resData.localId, resData.idToken, expirationDate);
       // emitujemy nasz obiekt.
       this.user.next(user);
+      // przechowujemy użytkownika w localstorage przeglądarki
+      localStorage.setItem('userData', JSON.stringify(user));
     }));
   }
 
@@ -103,6 +105,31 @@ export class AuthService {
 
   }
 
+  autoLogin() {
+    // pobranie User z LocalStorage rzutowanie na obiekt User
+    // dodaenie do ngOnInit w app.componet.ts
+    const userData: {
+      email: string,
+      id: string,
+      _token: string,
+      _tokenExpirationDate: string
+    } = JSON.parse(localStorage.getItem('userData'));
+    if (!userData) {
+      return;
+    }
+    // utworzenie nowego usera z dancy z loclaStorage
+    const loadedUser = new User(
+      userData.email,
+      userData.id,
+      userData._token,
+      new Date(userData._tokenExpirationDate));
+    // sprawdzenie czy token jest valid
+    if (loadedUser.token) {
+      // emitowanie zmienej user
+        this.user.next(loadedUser);
+      }
+  }
+
   private handleAuthentication(email: string, userId: string, token: string, expiresIn: number) {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(
@@ -112,6 +139,8 @@ export class AuthService {
       expirationDate);
     // emitujemy nasz obiekt.
     this.user.next(user);
+    // dodanie usera do localStorage - autoLogin()
+    localStorage.setItem('userData', JSON.stringify(user));
   }
 
   private handleError(errorRes: HttpErrorResponse) {
