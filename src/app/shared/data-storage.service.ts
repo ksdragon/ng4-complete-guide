@@ -53,7 +53,7 @@ export class DataStorageService {
    return this.authService.user.pipe(take(1), exhaustMap(user => {
       return this.http.get<Recipe []>('https://ng-course-recipe-book-9b934.firebaseio.com/recipes.json',
         {
-          params: new HttpParams().set('auth', user.token)
+          params: new HttpParams().set('auth', user.token) // dodajemy parametr do zapytania zgodnie z dokumentacją
         }
       );
     }),
@@ -63,11 +63,12 @@ export class DataStorageService {
         // tu funkcja map pozwala na zmiany w tablicy.
         return recipes.map(recipe => {
           // '...' - spread operatorjest (to kopia wszystkich właściwości recipe) i zmiana jednej włąściowści.
+          // jest to robione w celu dodania pustego obiektu ingredients bo inaczej byłby błąd.
           return { ...recipe, ingredients: recipe.ingredients ? recipe.ingredients : []};
         });
       }
     ), tap(
-      (response) => {this.recipeService.setRecipes(response); }
+      (response) => {this.recipeService.setRecipes(response); } // zapisuje zmieniony obiekt.
     ));
   }
 }

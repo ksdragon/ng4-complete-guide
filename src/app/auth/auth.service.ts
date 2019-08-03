@@ -116,6 +116,7 @@ export class AuthService {
     this.tokenExperationTimer = null;
   }
 
+  // zastosowany w app.comonent.ts przy ponownym załadowaniu strony
   autoLogin() {
     // pobranie User z LocalStorage rzutowanie na obiekt User
     // dodaenie do ngOnInit w app.componet.ts
@@ -134,8 +135,8 @@ export class AuthService {
       userData.id,
       userData._token,
       new Date(userData._tokenExpirationDate));
-    // sprawdzenie czy token jest valid
-    if (loadedUser.token) {
+    // sprawdzenie czy token jest valid czy nie wygasł
+    if (loadedUser.token) {  // wywołanie metody z user.model.ts i sprawdzenie czy nie wygasł
       // emitowanie zmienej user
         this.user.next(loadedUser);
        // rejestrowanie auto Logout przy zalogowaniu expiresIn dostajem z servera.
@@ -145,6 +146,7 @@ export class AuthService {
       }
   }
 
+  // przypisujemy do metod po poprawnym zalogowaiu lub rejestracji.
   autoLogout(experationDuration: number) {
     // przypisujemy timera do zmiennej.
     this.tokenExperationTimer = setTimeout( () => {
