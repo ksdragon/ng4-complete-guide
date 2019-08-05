@@ -1,8 +1,10 @@
+import { AlertComponent } from './../shared/alert/alert.component';
 import { Router } from '@angular/router';
 import { AuthService, AuthRensponseData } from './auth.service';
-import { Component } from '@angular/core';
+import { Component, ComponentFactoryResolver, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { PlaceholderDirective } from '../shared/placeholder/placeholder.derective';
 
 
 @Component({
@@ -13,10 +15,14 @@ export class AuthComponent {
   isLoginMode = true;
   isLoading = false;
   error: string = null;
+  @ViewChild(PlaceholderDirective, {static: false}) alertHost: PlaceholderDirective;
+  private closeSub: Subscription;
 
 
   constructor(private authService: AuthService,
-              private router: Router) { }
+              private router: Router,
+              // class to create component
+              private componentFactoryResolver: ComponentFactoryResolver) { }
 
   // przełączanie między ligin sing up.
   onSwitchMode() {
@@ -56,6 +62,7 @@ export class AuthComponent {
       errorMessage => {
         console.log(errorMessage);
         this.error = errorMessage;
+        this.showErrorAlert(errorMessage);
         this.isLoading = false;
       });
 
@@ -65,4 +72,23 @@ export class AuthComponent {
   onHandleError() {
     this.error = null;
   }
+
+  private showErrorAlert(message: string) {
+    // this approach is not correct
+    // const alertCmp = new AlertComponent();
+
+    const alertComFactory = this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
+    const hostViewContainerRef =  this.alertHost.viewContainerRef;
+    hostViewContainerRef.clear();
+
+    const componentRef = hostViewContainerRef.createComponent(alertComFactory);
+    componentRef.instance.message = message;
+    this.closeSub = componentRef.instance.close.subscribe(
+      () => {
+        this.closeSub.unsubscribe();
+        hostViewContainerRef.clear();
+      }
+    );
+
+}
 }

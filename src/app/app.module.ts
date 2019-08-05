@@ -22,6 +22,7 @@ import { ShoppingService } from './shopping-list/shopping.service';
 import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
+import { PlaceholderDirective } from './shared/placeholder/placeholder.derective';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
     RecipeEditComponent,
     AuthComponent,
     LoadingSpinnerComponent,
-    AlertComponent
+    AlertComponent,
+    PlaceholderDirective
 
   ],
   imports: [
@@ -56,6 +58,7 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
     useClass: AuthInterceptorService,
     multi: true
   }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [AlertComponent]
 })
 export class AppModule { }
