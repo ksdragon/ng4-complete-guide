@@ -34,7 +34,7 @@ export class RecipeDetailComponent implements OnInit {
     );
   }
 
-  onEdit(id: number){
+  onEdit(id: number) {
     // this.router.navigate(['/recipes', id, 'edit']);
     this.router.navigate(['edit'], {relativeTo: this.route});
   }

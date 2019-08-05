@@ -3,7 +3,7 @@ import { Directive, HostListener, ElementRef, Input, HostBinding } from '@angula
 @Directive({
     selector: '[appDropdown]'
 })
-export class DropdownDirective{
+export class DropdownDirective {
 
     @HostBinding('class.open') isOpen = false;
 
