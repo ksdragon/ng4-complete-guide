@@ -77,7 +77,12 @@ export class AuthComponent {
     // this approach is not correct
     // const alertCmp = new AlertComponent();
 
+    // obiekt Component Factory umożliwiający tworzenie komponentu.
     const alertComFactory = this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
+
+    // obiekt całego contenera - musimy wiedzić gdzie chcemy utowrzyć component
+    // używjać ViewChild i stworzonej darektywy
+    // derektywa daje nam referencje do miejsca gdzie jest użyta.
     const hostViewContainerRef =  this.alertHost.viewContainerRef;
     hostViewContainerRef.clear();
 
