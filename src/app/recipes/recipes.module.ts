@@ -1,7 +1,5 @@
 import { SharedModule } from './../shared/shared.module';
-import { DropdownDirective } from './../shared/dropdown.derective';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { RecipesComponent } from './recipes.component';
 import { NgModule } from '@angular/core';
 import { RecipeListComponent } from './recipe-list/recipe-list.component';
@@ -22,7 +20,6 @@ import { RecipesRoutingModule } from './recipes-routing.module';
     RecipeEditComponent
   ],
   imports: [
-    RouterModule,
     ReactiveFormsModule,
     RecipesRoutingModule,
     SharedModule

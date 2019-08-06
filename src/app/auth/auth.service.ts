@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, ErrorHandler } from '@angular/core';
@@ -38,7 +39,7 @@ export class AuthService {
     return this.http.post<AuthRensponseData>
       // link pobrany z dokumentacji api z firebase w ustawieniach
       // https://firebase.google.com/docs/reference/rest/auth#section-create-email-password
-      ('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBr430chns0S6gtEYxNlvk0khErKYmDUE4',
+      ('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + environment.fireBaseKeyAPI,
       // obiekt jaki oczekuje basa firebase zgodnie z dokumentacją.
     {
       email,
@@ -66,7 +67,7 @@ export class AuthService {
 
   login(email: string, password: string) {
     return this.http.post<AuthRensponseData>(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBr430chns0S6gtEYxNlvk0khErKYmDUE4',
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + environment.fireBaseKeyAPI,
     {
       email,
       password,

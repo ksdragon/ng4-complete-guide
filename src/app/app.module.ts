@@ -7,14 +7,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
-
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-
-import { RecipesModule } from './recipes/recipes.module';
-import { ShoppingListModule } from './shopping-list/shopping-list.module';
-
 
 @NgModule({
   declarations: [
@@ -27,13 +21,9 @@ import { ShoppingListModule } from './shopping-list/shopping-list.module';
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RecipesModule,
-    ShoppingListModule,
     SharedModule,
-    CoreModule,
-    AuthModule
+    CoreModule
   ],
-  // ustawiamy przechwytywacz zapytań do serwera
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [AlertComponent]
