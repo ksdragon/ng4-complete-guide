@@ -9,6 +9,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
+import { StoreModule } from '@ngrx/store';
+import { shoppingListReducer } from './shopping-list/store/shopping-list.reducer';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,8 @@ import { HeaderComponent } from './header/header.component';
     ReactiveFormsModule,
     HttpClientModule,
     SharedModule,
-    CoreModule
+    CoreModule,
+    StoreModule.forRoot({ shoppingList: shoppingListReducer })
   ],
   providers: [],
   bootstrap: [AppComponent],
