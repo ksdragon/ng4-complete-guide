@@ -1,7 +1,7 @@
-import { AuthComponent } from './auth/auth.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { ShoppingListComponent } from './shopping-list/shopping-list.component';
+import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
+
 
 
 const appRoutes: Routes = [
@@ -9,7 +9,9 @@ const appRoutes: Routes = [
   { path: '', redirectTo: '/recipes', pathMatch: 'full'},
   { path: 'recipes', loadChildren: './recipes/recipes.module#RecipesModule'},
   { path: 'shoppingList', loadChildren: './shopping-list/shopping-list.module#ShoppingListModule'},
-  { path: 'auth', loadChildren: './auth/auth.module#AuthModule'}
+  { path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
+  { path: 'not-found', component: PageNotFoundComponent},
+  { path: '**', redirectTo: '/not-found'}
 ];
 
 @NgModule({
